@@ -9,12 +9,9 @@ jobs:
   welcome:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
-        with:
-          script: |
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `Hello! There is an additional workflow running for your PR; it will be available [here](https://riscv-ci.pages.thales-invia.fr/dashboard/dashboard_core-v-verif_github-pr..${context.issue.number}..head.html).`
-            })
+    - uses: peter-evans/create-or-update-comment@v2
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          Hello! There is an additional workflow running for your PR.
+          It will be available [here](https://riscv-ci.pages.thales-invia.fr/dashboard/dashboard_core-v-verif_github-pr..${{ github.event.pull_request.number }}..head.html) later.
