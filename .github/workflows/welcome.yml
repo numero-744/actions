@@ -25,7 +25,7 @@ jobs:
         with:
           script: |
             await github.rest.issues.createComment({
-              issue_number: ${inputs.pr_number},
+              issue_number: inputs.pr_number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `Success: ${inputs.success} [here](${inputs.dashboard_page}).`
