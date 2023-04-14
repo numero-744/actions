@@ -4,7 +4,7 @@ on:
       pr_number:
         description: 'ID of the PR to comment'
         required: true
-        type: number
+        type: string
       success:
         description: 'Is the workflow successful?'
         required: true
