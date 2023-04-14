@@ -25,11 +25,11 @@ jobs:
         with:
           script: |
             const inputs = context.payload.inputs
-            console.log(inputs)
-            const status_text = inputs.success ? ":heavy_check_mark: successful" : ":x: failed"
+            const success = inputs.success == 'true'
+            const status_text = success ? ":heavy_check_mark: successful" : ":x: failed"
             await github.rest.issues.createComment({
               issue_number: inputs.pr_number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `${status_text} run, available [here](${inputs.dashboard_page}).`
+              body: `${status_text} run, report available [here](${inputs.dashboard_page}).`
             })
