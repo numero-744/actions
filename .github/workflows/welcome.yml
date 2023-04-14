@@ -1,6 +1,18 @@
 on:
-  pull_request:
-    types: opened
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'ID of the PR to comment'
+        required: true
+        type: integer
+      success:
+        description: 'Is the workflow successful?'
+        required: true
+        type: boolean
+      dashboard_page:
+        description: 'URL to the dashboard page'
+        required: true
+        type: string
 
 permissions:
   pull-requests: write
@@ -13,8 +25,8 @@ jobs:
         with:
           script: |
             await github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: ${inputs.pr_number},
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Hello! There is an additional workflow running for your PR; it will be available [here](https://riscv-ci.pages.thales-invia.fr/dashboard/dashboard_core-v-verif_github-pr..${context.issue.number}..head.html).`
+              body: `Success: ${inputs.success} [here](${inputs.dashboard_page}).`
             })
