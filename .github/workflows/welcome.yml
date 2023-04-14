@@ -23,6 +23,9 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         with:
+          script: console.log(context)
+      - uses: actions/github-script@v6
+        with:
           script: |
             await github.rest.issues.createComment({
               issue_number: context.inputs.pr_number,
