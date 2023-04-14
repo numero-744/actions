@@ -4,7 +4,7 @@ on:
       pr_number:
         description: 'ID of the PR to comment'
         required: true
-        type: integer
+        type: number
       success:
         description: 'Is the workflow successful?'
         required: true
@@ -23,14 +23,12 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         with:
-          script: console.log(context)
-      - uses: actions/github-script@v6
-        with:
           script: |
             const inputs = context.payload.inputs
+            const status_text = inputs.success ? ":heavy_check_mark: successful" : ":x: failed"
             await github.rest.issues.createComment({
               issue_number: inputs.pr_number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Success: ${inputs.success} [here](${inputs.dashboard_page}).`
+              body: `${status_text} run, available [here](${inputs.dashboard_page}).`
             })
